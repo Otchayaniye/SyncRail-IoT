@@ -23,7 +23,7 @@ void setup() {
   Serial.println("Conectado com Sucesso parceiro!");
   Serial.println("Conectando no Broker");
   mqtt.setServer(BROKER_URL, BROKER_PORT);
-  String boardID = "S1-";
+  String boardID = "S4-Trem";
   boardID += String(random(0xffff), HEX);
 
   while (!mqtt.connect(boardID.c_str(),BROKER_USR_NAME,BROKER_USR_PASS)) {
