@@ -6,17 +6,10 @@
 WiFiClientSecure wificlient;
 PubSubClient mqtt(wificlient);
 
-
-//comando para publicar 
-//mqtt.publish(INSERIR O TOPICO, INSERIR A MSG);
-
 const int ULTRA_ECHO1 = 23;
 const int ULTRA_TRIG1 = 22;
 const int ULTRA_ECHO2 = 26;
 const int ULTRA_TRIG2 = 27;
-
-// definir os pinos do ultrassonico 1 e 2
-
 
 void setup() {
   pinMode(ULTRA_ECHO1, INPUT);
@@ -123,9 +116,7 @@ void callback(char* topic, byte* payload, unsigned long length) {
 
   //antes precisa verificar se o topic da mensagem é igual ao topico da iluminacao
   Serial.println(mensagemRecebida);
-  if(mensagemRecebida == "on"){
-    digitalWrite(2, 1);
-  } else if(mensagemRecebida == "off"){
-    digitalWrite(2, 0);
+  int status = mensagemRecebida.toInt();
+  Leds(status);
   }
 }
