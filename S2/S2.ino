@@ -10,12 +10,14 @@ const int ULTRA_ECHO1 = 23;
 const int ULTRA_TRIG1 = 22;
 const int ULTRA_ECHO2 = 26;
 const int ULTRA_TRIG2 = 27;
+const int LedRGB = 2;
 
 void setup() {
   pinMode(ULTRA_ECHO1, INPUT);
   pinMode(ULTRA_TRIG1, OUTPUT);
   pinMode(ULTRA_ECHO2, INPUT);
   pinMode(ULTRA_TRIG2, OUTPUT);
+  pinMode(LedRGB, OUTPUT);
 
   Serial.begin(115200);    //configura a placa pra mostrar na tela
   wificlient.setInsecure();
@@ -109,14 +111,20 @@ void loop() {
 }
 
 void callback(char* topic, byte* payload, unsigned long length) {
-  String mensagemRecebida = "";
+  String mensagem = "";
   for (int i = 0; i < length; i++) {
-    mensagemRecebida += (char)payload[i];
+    mensagem += (char)payload[i];
   }
 
   //antes precisa verificar se o topic da mensagem é igual ao topico da iluminacao
-  Serial.println(mensagemRecebida);
-  int status = mensagemRecebida.toInt();
-  Leds(status);
+  Serial.println(mensagem);
+  if (topic==TOPIC_Iluminacao) {
+    if (mensagem=="Acender") {
+      digitalWrite (LedRGB, HIGH);
+    }
+    else if (mensagem=="Apagar") {
+      digitalWrite (LedRGB, LOW);
+    }
+  }
   }
 }
