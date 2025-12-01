@@ -74,8 +74,9 @@ void sensor() {
 
   if (distancia < 10) {
     Serial.println("Objeto próximo!");
-    mqtt.publish(TOPIC_Presenca3, "detectado");
-  }
+    mqtt.publish(TOPIC_Presenca3, "1");
+  } else if (distancia > 10) {
+    mqtt.publish(TOPIC_Presenca3, "0");
 
   delay(500);
 }
@@ -93,16 +94,16 @@ void callback(char* topic, byte* payload, unsigned long length) {
   Serial.println(topic, ": ", message);
 
   if (topic == TOPIC_Iluminacao) {
-    if (message == "Acender") {
+    if (message == "1") {
       digitalWrite(Led, HIGH);
 
-    } else if (message == "Apagar") {
+    } else if (message == "0") {
       digitalWrite(Led, LOW);
     }
   }
 
   else if (topic == TOPIC_Presenca1) {
-    if (message == "detectado")
+    if (message == "1")
       for (int pos = 0; pos <= 90; pos += 1) {
         Servo1.write(pos);
         delay(15);
@@ -110,7 +111,7 @@ void callback(char* topic, byte* payload, unsigned long length) {
   }
 
   else if (topic == TOPIC_Presenca2) {
-    if (message == "detectado")
+    if (message == "1")
       for (int pos = 0; pos <= 90; pos += 1) {
         Servo2.write(pos);
         delay(15);
@@ -118,7 +119,7 @@ void callback(char* topic, byte* payload, unsigned long length) {
   }
 
   else if (topic == TOPIC_Presenca3) {
-    if (message == "detectado")
+    if (message == "1")
       for (int pos = 0; pos <= 120; pos += 1) {
         Servo1.write(pos);
         Servo2.write(pos);
