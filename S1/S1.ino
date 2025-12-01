@@ -144,9 +144,9 @@ void loop() {
   }
   int LeituraLDR = analogRead(LDR);
   if (LeituraLDR > 2700) {
-    mqtt.publish(TOPIC_ILUMINACAO, "Acender");
+    mqtt.publish(TOPIC_ILUMINACAO, 1);
   } else {
-    mqtt.publish(TOPIC_ILUMINACAO, "Apagar");
+    mqtt.publish(TOPIC_ILUMINACAO, 0);
   }
   delay(2800);
   statusLED(5);
@@ -160,14 +160,14 @@ void callback(char* topic, byte* payload, unsigned long length) {
   for (int i = 0; i < length; i++) {
     message += (char)payload[i];
   }
-  if (topic == "SyncRail/S1/Iluminacao") {
-    if (message == "Acender") {
+  if (topic == TOPIC_ILUMINACAO) {
+    if (message == "1") {
       digitalWrite(LED, HIGH);
       Serial.println(1);
       }
-    else if (message == "Apagar") {
+    else if (message == "0") {
       digitalWrite(LED, LOW);
-      Serial.println(0);
+      Serial.prisntln(0);
     }
   }
 }
