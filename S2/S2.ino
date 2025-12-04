@@ -19,9 +19,9 @@ void setup() {
   pinMode(ULTRA_TRIG2, OUTPUT);
   pinMode(LedRGB, OUTPUT);
 
-  Serial.begin(115200);    //configura a placa pra mostrar na tela
+  Serial.begin(115200);    
   wificlient.setInsecure();
-  WiFi.begin(SSID, PASS);  //tenta conectar na rede
+  WiFi.begin(SSID, PASS);  
   Serial.println("Conectando ao Wifi");
   while (WiFi.status() != WL_CONNECTED) {
     Serial.print(".");
@@ -37,12 +37,12 @@ void setup() {
     Serial.print(".");
     delay(200);
   }
-  mqtt.subscribe(TOPIC_VELOCIDADE);         //mudar para o tópico correto
+  mqtt.subscribe(TOPIC_VELOCIDADE);        
   mqtt.setCallback(callback);
   Serial.println("\nConectado com sucesso ao broker!");
   pinMode(2, OUTPUT);
 
-//definir os pinos do ultrassonico 1 e 2 como entrada e saida
+
 
 long lerDistancia() {
   digitalWrite(ULTRA_TRIG1, LOW);
@@ -75,7 +75,6 @@ void loop() {
   delay(500);
 }
 
-//repetir para o ultrassonico 2
 
 long lerDistancia() {
   digitalWrite(ULTRA_TRIG2, LOW);
@@ -116,7 +115,7 @@ void callback(char* topic, byte* payload, unsigned long length) {
     mensagem += (char)payload[i];
   }
 
-  //antes precisa verificar se o topic da mensagem é igual ao topico da iluminacao
+  
   Serial.println(mensagem);
   if (topic==TOPIC_Iluminacao) {
     if (mensagem=="Acender") {
